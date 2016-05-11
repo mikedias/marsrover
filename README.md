@@ -1,6 +1,6 @@
 # Mars Rover Project
 
-Exploring Mars with Java! That is what they mean by **write once, runs anywhere**!!! :P
+Exploring Mars with Java! That is what they mean by **write once, run anywhere**!!! :P
 
 ## Usage
 
