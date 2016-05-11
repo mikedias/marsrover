@@ -1,9 +1,9 @@
-package org.nasa.marshover;
+package org.nasa.marsrover;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-import static org.nasa.marshover.Direction.*;
+import static org.nasa.marsrover.Direction.*;
 
 /**
  * @author Mike Dias
@@ -48,6 +48,12 @@ public class RoverTest {
         assertTrue(r.getX() == 1);
         assertTrue(r.getY() == 1);
         assertTrue(r.getDirection() == W);
+
+        r.turnLeft();
+        r.move();
+        assertTrue(r.getX() == 1);
+        assertTrue(r.getY() == 0);
+        assertTrue(r.getDirection() == S);
 
     }
 

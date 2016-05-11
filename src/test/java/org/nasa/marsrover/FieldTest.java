@@ -1,4 +1,4 @@
-package org.nasa.marshover;
+package org.nasa.marsrover;
 
 import org.junit.Test;
 

@@ -1,9 +1,9 @@
-package org.nasa.marshover;
+package org.nasa.marsrover;
 
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.nasa.marshover.Direction.*;
+import static org.nasa.marsrover.Direction.*;
 
 /**
  * @author Mike Dias

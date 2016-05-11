@@ -1,4 +1,4 @@
-package org.nasa.marshover;
+package org.nasa.marsrover;
 
 /**
  * @author Mike Dias

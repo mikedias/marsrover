@@ -1,4 +1,4 @@
-package org.nasa.marshover;
+package org.nasa.marsrover;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -21,12 +21,14 @@ public class Rover {
         this.direction = direction;
     }
 
+    // todo implement fluent chain
+    // todo add logging
     public void move() {
         int newX = x + direction.getX();
         int newY = y + direction.getY();
 
         Preconditions.checkState(field.isInsideBounds(newX, newY),
-            "Movement is out of the bounds. Bounds: [0 to %s, 0 to %s], Movement: [%s, %s]",
+            "Movement is out of bounds. Bounds: [0 to %s, 0 to %s], Movement: [%s, %s]",
             field.getWidth(), field.getHeight(), newX, newY);
 
         x = newX;
@@ -35,11 +37,11 @@ public class Rover {
     }
 
     public void turnLeft() {
-        this.direction = direction.getLeft();
+        direction = direction.getLeft();
     }
 
     public void turnRight() {
-        this.direction = direction.getRight();
+        direction = direction.getRight();
     }
 
     @Override
