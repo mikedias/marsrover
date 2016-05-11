@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author Mike Dias
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class FieldTest {
 
     @Test
-    public void testFieldBounds() throws Exception {
+    public void testFieldBounds() {
 
         Field f = new Field(5, 5);
 
@@ -25,6 +26,36 @@ public class FieldTest {
         assertFalse(f.isInsideBounds(6, 6));
         assertFalse(f.isInsideBounds(0, 6));
         assertFalse(f.isInsideBounds(6, 0));
+
+    }
+
+    @Test
+    public void testFieldWidthHeightPreconditions() {
+
+        try {
+            new Field(-1, -1);
+            fail();
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
+        }
+
+        try {
+            new Field(0, 1);
+            fail();
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
+        }
+
+        try {
+            new Field(1, 0);
+            fail();
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
+        }
+
+        Field f = new Field(1, 1);
+        assertTrue(f.getWidth() == 1);
+        assertTrue(f.getHeight() == 1);
 
     }
 

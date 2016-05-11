@@ -1,6 +1,7 @@
 package org.nasa.marsrover;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
 /**
  * @author Mike Dias
@@ -11,7 +12,10 @@ public class Field {
     private int height;
 
     public Field(int width, int height) {
-        // todo reject negatives values
+        Preconditions.checkArgument(width > 0 && height > 0,
+            "Width and height should be greater than zero, but w=%s, h=%s",
+            width, height);
+
         this.width = width;
         this.height = height;
     }

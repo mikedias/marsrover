@@ -13,17 +13,21 @@ public class Rover {
     private int y;
     private Direction direction;
 
-    public Rover(Field f, int x, int y, Direction direction) {
-        // todo reject invalid initial position
+    public Rover(Field f, int x, int y, Direction d) {
+        Preconditions.checkArgument(f != null, "The rover should be landed in some field");
+        Preconditions.checkArgument(d != null, "The rover direction cannot be null");
+
+        Preconditions.checkArgument(f.isInsideBounds(x, y),
+            "The rover initial position should be inside the field. %s, x=%s, y=%s",
+            f.toString(), x, y);
+
         this.field = f;
         this.x = x;
         this.y = y;
-        this.direction = direction;
+        this.direction = d;
     }
 
-    // todo implement fluent chain
-    // todo add logging
-    public void move() {
+    public Rover move() {
         int newX = x + direction.getX();
         int newY = y + direction.getY();
 
@@ -34,14 +38,18 @@ public class Rover {
         x = newX;
         y = newY;
 
+        return this;
+
     }
 
-    public void turnLeft() {
+    public Rover turnLeft() {
         direction = direction.getLeft();
+        return this;
     }
 
-    public void turnRight() {
+    public Rover turnRight() {
         direction = direction.getRight();
+        return this;
     }
 
     @Override
