@@ -4,6 +4,8 @@ import org.nasa.marsrover.Direction;
 import org.nasa.marsrover.Field;
 import org.nasa.marsrover.Rover;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -13,22 +15,45 @@ public class CommandLineInterface {
 
     public static void main(String args[]) {
 
-        Scanner in = new Scanner(System.in);
+        System.out.println(
+            "  __  __                  _____                     \n" +
+            " |  \\/  |                |  __ \\                    \n" +
+            " | \\  / | __ _ _ __ ___  | |__) |_____   _____ _ __ \n" +
+            " | |\\/| |/ _` | '__/ __| |  _  // _ \\ \\ / / _ \\ '__|\n" +
+            " | |  | | (_| | |  \\__ \\ | | \\ \\ (_) \\ V /  __/ |   \n" +
+            " |_|  |_|\\__,_|_|  |___/ |_|  \\_\\___/ \\_/ \\___|_|   \n" +
+            "                                                    \n" +
+            " ---------------------------------------------------\n" +
+            " Input Example (with comments): \n\n" +
+            "   5 5        (Field dimensions) \n" +
+            "   1 2 N      (Rover initial position and direction) \n" +
+            "   LMLMLMLMM  (Move commands) \n" +
+            "   3 3 E      (Another Rover...) \n" +
+            "   LMLMLMLMM  (More Move commands...) \n\n" +
+            " Go ahead and try yourself:"
+        );
 
-        int width = in.nextInt();
-        int height = in.nextInt();
+        processInput(System.in, System.out);
+
+    }
+
+    public static void processInput(InputStream in, PrintStream out) {
+        Scanner sc = new Scanner(in);
+
+        int width = sc.nextInt();
+        int height = sc.nextInt();
 
         Field f = new Field(width, height);
 
-        while (true) {
+        while (sc.hasNext()) {
 
-            int x = in.nextInt();
-            int y = in.nextInt();
-            Direction d = Direction.valueOf(in.next());
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            Direction d = Direction.valueOf(sc.next());
 
             Rover r = new Rover(f, x, y, d);
 
-            for (char cmd : in.next().toCharArray()) {
+            for (char cmd : sc.next().toCharArray()) {
                 switch (cmd) {
                     case 'L': r.turnLeft(); break;
                     case 'R': r.turnRight(); break;
@@ -37,9 +62,8 @@ public class CommandLineInterface {
                 }
             }
 
-            System.out.println(r.getX() + " " + r.getY() + " " + r.getDirection().name());
+            out.println(r.getX() + " " + r.getY() + " " + r.getDirection().name());
 
         }
-
     }
 }
