@@ -8,8 +8,12 @@ import com.google.common.base.Preconditions;
  */
 public class Field {
 
+    private int id;
+
     private int width;
     private int height;
+
+    public Field() { }
 
     public Field(int width, int height) {
         Preconditions.checkArgument(width > 0 && height > 0,
@@ -32,7 +36,28 @@ public class Field {
             .toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field = (Field) o;
+        return getId() == field.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(getId());
+    }
+
     // --- getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getWidth() {
         return width;
@@ -49,5 +74,4 @@ public class Field {
     public void setHeight(int height) {
         this.height = height;
     }
-
 }
