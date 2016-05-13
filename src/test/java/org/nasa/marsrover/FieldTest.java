@@ -2,6 +2,12 @@ package org.nasa.marsrover;
 
 import org.junit.Test;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.bootstrap.GenericBootstrap;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,30 +38,12 @@ public class FieldTest {
     @Test
     public void testFieldWidthHeightPreconditions() {
 
-        try {
-            new Field(-1, -1);
-            fail();
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
-        }
+        Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
 
-        try {
-            new Field(0, 1);
-            fail();
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
-        }
-
-        try {
-            new Field(1, 0);
-            fail();
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
-        }
-
-        Field f = new Field(1, 1);
-        assertTrue(f.getWidth() == 1);
-        assertTrue(f.getHeight() == 1);
+        assertThat(validator.validate(new Field(-1, -1)), hasSize(2));
+        assertThat(validator.validate(new Field(0, 1)), hasSize(1));
+        assertThat(validator.validate(new Field(1, 0)), hasSize(1));
+        assertThat(validator.validate(new Field(1, 1)), hasSize(0));
 
     }
 

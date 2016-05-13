@@ -2,6 +2,7 @@ package org.nasa.marsrover.api;
 
 import org.nasa.marsrover.Field;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,7 +37,7 @@ public class FieldResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Field create(Field f) {
+    public Field create(@Valid Field f) {
         f.setId(ID_GEN.incrementAndGet());
         getFieldStorage().put(f.getId(), f);
         return f;
@@ -46,7 +47,7 @@ public class FieldResource {
     @Path("{fieldId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Field update(@PathParam("fieldId") Integer id, Field f) {
+    public Field update(@PathParam("fieldId") Integer id, @Valid Field f) {
         getFieldStorage().put(id, f);
         return f;
     }

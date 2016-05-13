@@ -11,7 +11,9 @@ import javax.ws.rs.core.Response;
 
 import static com.jayway.restassured.RestAssured.*;
 import static com.jayway.restassured.http.ContentType.JSON;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.*;
 
 /**
@@ -70,6 +72,40 @@ public class FieldResourceTest extends ApiTest {
 
         // delete
         delete("fields/{id}", f.getId()).then().statusCode(NO_CONTENT.getStatusCode());
+
+    }
+
+    @Test
+    public void testFieldPreconditions() {
+
+        given()
+            .contentType(JSON)
+            .body(new Field(-1, -1))
+        .when()
+            .post("fields")
+        .then()
+            .statusCode(BAD_REQUEST.getStatusCode());
+
+        Field f = new Field(1, 1);
+
+        f = given()
+            .contentType(JSON)
+            .body(f)
+        .when()
+            .post("fields")
+        .then()
+            .statusCode(OK.getStatusCode())
+        .extract()
+            .as(Field.class);
+
+        f.setWidth(-1);
+        given()
+            .contentType(JSON)
+            .body(f)
+        .when()
+            .put("fields/{id}", f.getId())
+        .then().log().all()
+            .statusCode(BAD_REQUEST.getStatusCode());
 
     }
 

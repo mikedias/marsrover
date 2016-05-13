@@ -2,8 +2,9 @@ package org.nasa.marsrover;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,19 +16,18 @@ public class Field {
 
     private int id;
 
+    @Min(value = 1, message = "Width should be greater than zero")
     private int width;
+
+    @Min(value = 1, message = "Height should be greater than zero")
     private int height;
 
     @JsonIgnore
     private Map<Integer, Rover> rovers = new HashMap<>();
 
-    public Field() { }
+    public Field() { /* serialization proposes */ }
 
     public Field(int width, int height) {
-        Preconditions.checkArgument(width > 0 && height > 0,
-            "Width and height should be greater than zero, but w=%s, h=%s",
-            width, height);
-
         this.width = width;
         this.height = height;
     }
@@ -40,7 +40,7 @@ public class Field {
         return rovers.get(roverId);
     }
 
-    public Rover addRover(Rover r) {
+    public Rover addRover(@NotNull Rover r) {
         return rovers.put(r.getId(), r);
     }
 
@@ -55,6 +55,7 @@ public class Field {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+            .add("id", id)
             .add("width", width)
             .add("height", height)
             .add("rovers", rovers)

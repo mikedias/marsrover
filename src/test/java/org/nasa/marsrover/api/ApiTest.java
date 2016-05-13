@@ -4,6 +4,7 @@ import com.jayway.restassured.RestAssured;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.After;
 import org.junit.Before;
+import org.nasa.marsrover.storage.Storage;
 
 /**
  * @author Mike Dias
@@ -21,6 +22,7 @@ public abstract class ApiTest {
 
     @After
     public void tearDown() throws Exception {
+        Storage.getFieldStorage().clear();
         server.shutdownNow();
     }
 
