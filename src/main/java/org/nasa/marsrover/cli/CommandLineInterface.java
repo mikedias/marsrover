@@ -54,12 +54,7 @@ public class CommandLineInterface {
             Rover r = new Rover(f, x, y, d);
 
             for (char cmd : sc.next().toCharArray()) {
-                switch (cmd) {
-                    case 'L': r.turnLeft(); break;
-                    case 'R': r.turnRight(); break;
-                    case 'M': r.move(); break;
-                    default: // invalid command. ignoring
-                }
+                r.performCmd(cmd);
             }
 
             out.println(r.getX() + " " + r.getY() + " " + r.getDirection().name());

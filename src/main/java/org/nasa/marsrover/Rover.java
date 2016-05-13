@@ -8,10 +8,14 @@ import com.google.common.base.Preconditions;
  */
 public class Rover {
 
+    private int id;
+
     private Field field;
     private int x;
     private int y;
     private Direction direction;
+
+    public Rover() { }
 
     public Rover(Field f, int x, int y, Direction d) {
         Preconditions.checkArgument(f != null, "The rover should be landed in some field");
@@ -25,6 +29,15 @@ public class Rover {
         this.x = x;
         this.y = y;
         this.direction = d;
+    }
+
+    public void performCmd(char cmd) {
+        switch (Character.toUpperCase(cmd)) {
+            case 'L': turnLeft(); break;
+            case 'R': turnRight(); break;
+            case 'M': move(); break;
+            default: // invalid command. ignoring
+        }
     }
 
     public Rover move() {
@@ -62,7 +75,28 @@ public class Rover {
             .toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rover rover = (Rover) o;
+        return getId() == rover.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(getId());
+    }
+
     // ---- getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Field getField() {
         return field;

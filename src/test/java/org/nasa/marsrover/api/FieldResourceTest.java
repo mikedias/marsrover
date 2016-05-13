@@ -17,20 +17,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * @author Mike Dias
  */
-public class FieldResourceTest {
-
-    private HttpServer server;
-
-    @Before
-    public void setUp() throws Exception {
-        server = RestApp.startServer();
-        RestAssured.baseURI = RestApp.BASE_URI;
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        server.shutdownNow();
-    }
+public class FieldResourceTest extends ApiTest {
 
     @Test
     public void testCrudOperations() {

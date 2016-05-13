@@ -1,7 +1,12 @@
 package org.nasa.marsrover;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mike Dias
@@ -12,6 +17,9 @@ public class Field {
 
     private int width;
     private int height;
+
+    @JsonIgnore
+    private Map<Integer, Rover> rovers = new HashMap<>();
 
     public Field() { }
 
@@ -24,6 +32,22 @@ public class Field {
         this.height = height;
     }
 
+    public Collection<Rover> getRovers() {
+        return rovers.values();
+    }
+
+    public Rover getRover(int roverId) {
+        return rovers.get(roverId);
+    }
+
+    public Rover addRover(Rover r) {
+        return rovers.put(r.getId(), r);
+    }
+
+    public Rover removeRover(int roverId) {
+        return rovers.remove(roverId);
+    }
+
     public boolean isInsideBounds(int x, int y) {
         return x >= 0 && y >= 0 && x <= width && y <= height;
     }
@@ -33,6 +57,7 @@ public class Field {
         return Objects.toStringHelper(this)
             .add("width", width)
             .add("height", height)
+            .add("rovers", rovers)
             .toString();
     }
 
