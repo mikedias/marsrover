@@ -1,6 +1,8 @@
 package org.nasa.marsrover.api;
 
+import com.google.common.base.Preconditions;
 import org.nasa.marsrover.Field;
+import org.nasa.marsrover.Rover;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -59,11 +61,11 @@ public class FieldResource {
         return Response.noContent().build();
     }
 
-
     @Path("{fieldId}/rovers")
-    public RoverResource getRoverResource() {
-        return new RoverResource();
+    public RoverResource getRoverResource(@PathParam("fieldId") Integer id) {
+        Field f = getFieldStorage().get(id);
+        Preconditions.checkArgument(f != null, "There is no field with id '%s'", id);
+        return new RoverResource(f);
     }
-
 
 }

@@ -7,6 +7,8 @@ import org.nasa.marsrover.Rover;
 
 import static com.jayway.restassured.RestAssured.*;
 import static com.jayway.restassured.http.ContentType.JSON;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -162,6 +164,39 @@ public class RoverResourceTest extends ApiTest {
             .body("x", is(5))
             .body("y", is(1))
             .body("direction", is(E.name()));
+
+    }
+
+    @Test
+    public void testRoverPreconditions() {
+
+        Field f = new Field(5, 5);
+
+        f = given()
+            .contentType(JSON)
+            .body(f)
+        .when()
+            .post("fields")
+        .then()
+            .extract()
+            .body()
+            .as(Field.class);
+
+        given()
+            .contentType(JSON)
+            .body(new Rover())
+        .when()
+            .post("fields/{id}/rovers", f.getId())
+        .then()
+            .statusCode(BAD_REQUEST.getStatusCode());
+
+        given()
+            .contentType(JSON)
+            .body(new Rover(null, 6, 6, N))
+        .when()
+            .post("fields/{id}/rovers", f.getId())
+        .then()
+            .statusCode(INTERNAL_SERVER_ERROR.getStatusCode());
 
     }
 

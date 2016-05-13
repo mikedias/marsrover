@@ -38,7 +38,7 @@ public class FieldTest {
     @Test
     public void testFieldWidthHeightPreconditions() {
 
-        Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         assertThat(validator.validate(new Field(-1, -1)), hasSize(2));
         assertThat(validator.validate(new Field(0, 1)), hasSize(1));

@@ -3,6 +3,8 @@ package org.nasa.marsrover;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Mike Dias
  */
@@ -11,20 +13,19 @@ public class Rover {
     private int id;
 
     private Field field;
+
+    @NotNull
     private int x;
+
+    @NotNull
     private int y;
+
+    @NotNull
     private Direction direction;
 
-    public Rover() { }
+    public Rover() { /* serialization proposes */ }
 
     public Rover(Field f, int x, int y, Direction d) {
-        Preconditions.checkArgument(f != null, "The rover should be landed in some field");
-        Preconditions.checkArgument(d != null, "The rover direction cannot be null");
-
-        Preconditions.checkArgument(f.isInsideBounds(x, y),
-            "The rover initial position should be inside the field. %s, x=%s, y=%s",
-            f.toString(), x, y);
-
         this.field = f;
         this.x = x;
         this.y = y;
@@ -68,6 +69,7 @@ public class Rover {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+            .add("id", id)
             .add("field", field)
             .add("x", x)
             .add("y", y)

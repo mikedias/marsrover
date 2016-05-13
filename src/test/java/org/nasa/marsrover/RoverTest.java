@@ -2,6 +2,11 @@ package org.nasa.marsrover;
 
 import org.junit.Test;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.nasa.marsrover.Direction.*;
@@ -91,34 +96,21 @@ public class RoverTest {
     @Test
     public void testRoverPreconditions() {
 
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
         Field f = new Field(5, 5);
-
         try {
-            new Rover(null, 0, 0, N);
+            f.addRover(new Rover(f, -1, -1, N));
             fail();
         } catch (Exception e) {
             assertTrue(e instanceof IllegalArgumentException);
         }
 
-        try {
-            new Rover(f, 0, 0, null);
-            fail();
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
-        }
-
-        try {
-            new Rover(f, -1, -1, N);
-            fail();
-        } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
-        }
+        assertThat(validator.validate(new Rover(null, 0, 0, null)), hasSize(1));
 
         Rover r = new Rover(f, 1, 2, N);
-        assertTrue(r.getX() == 1);
-        assertTrue(r.getY() == 2);
-        assertTrue(r.getDirection() == N);
-
+        assertThat(validator.validate(r), hasSize(0));
+        f.addRover(r);
 
     }
 

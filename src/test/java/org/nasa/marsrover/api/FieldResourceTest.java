@@ -104,7 +104,7 @@ public class FieldResourceTest extends ApiTest {
             .body(f)
         .when()
             .put("fields/{id}", f.getId())
-        .then().log().all()
+        .then()
             .statusCode(BAD_REQUEST.getStatusCode());
 
     }

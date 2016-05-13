@@ -2,6 +2,7 @@ package org.nasa.marsrover;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -41,6 +42,10 @@ public class Field {
     }
 
     public Rover addRover(@NotNull Rover r) {
+        Preconditions.checkArgument(this.isInsideBounds(r.getX(), r.getY()),
+            "The rover initial position should be inside the field. %s, x=%s, y=%s",
+            this.toString(), r.getX(), r.getY());
+
         return rovers.put(r.getId(), r);
     }
 
@@ -58,7 +63,6 @@ public class Field {
             .add("id", id)
             .add("width", width)
             .add("height", height)
-            .add("rovers", rovers)
             .toString();
     }
 
