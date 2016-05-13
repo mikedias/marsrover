@@ -94,7 +94,8 @@
                             <finalName>marsrover-cli</finalName>
                             <artifactSet>
                                 <excludes>
-                                    <exclude>org.glassfish.jersey:*</exclude>
+                                    <exclude>org.glassfish.*:*</exclude>
+                                    <exclude>com.fasterxml.jackson.*:*</exclude>
                                 </excludes>
                             </artifactSet>
                             <minimizeJar>true</minimizeJar>
